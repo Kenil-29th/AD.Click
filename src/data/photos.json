@@ -1,0 +1,33 @@
+[
+  {
+    "id": "media-1780409751387-zs6rvr",
+    "type": "image",
+    "url": "https://res.cloudinary.com/dtsh4qzd5/image/upload/v1780409750/adclickss/portfolio/tqihjiotbhnsltnnq0ev.jpg",
+    "publicId": "adclickss/portfolio/tqihjiotbhnsltnnq0ev",
+    "createdAt": "2026-06-02T14:15:51.387Z",
+    "priority": 0
+  },
+  {
+    "id": "media-1780576946651-3pemss",
+    "type": "video",
+    "title": "Pranit",
+    "category": "Portrait",
+    "ratio": "4/5",
+    "url": "https://res.cloudinary.com/dtsh4qzd5/video/upload/v1780576945/adclickss/videos/cqki0njhdtznhvdklwpz.mp4",
+    "publicId": "adclickss/videos/cqki0njhdtznhvdklwpz",
+    "thumbnail": "https://res.cloudinary.com/dtsh4qzd5/video/upload/v1780576945/adclickss/videos/cqki0njhdtznhvdklwpz.jpg",
+    "badge": "SHORT FILM",
+    "createdAt": "2026-06-04T12:42:26.651Z"
+  },
+  {
+    "id": "media-1780579306355-uxsjpc",
+    "type": "image",
+    "title": "Increasing",
+    "category": "Portrait",
+    "ratio": "4/5",
+    "url": "https://res.cloudinary.com/dtsh4qzd5/image/upload/v1780579305/adclickss/portfolio/px67vwsyyczf3kuthvri.jpg",
+    "publicId": "adclickss/portfolio/px67vwsyyczf3kuthvri",
+    "priority": 5,
+    "createdAt": "2026-06-04T13:21:46.355Z"
+  }
+]
