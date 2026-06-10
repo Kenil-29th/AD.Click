@@ -1,33 +1,28 @@
 [
   {
-    "id": "media-1780409751387-zs6rvr",
-    "type": "image",
-    "url": "https://res.cloudinary.com/dtsh4qzd5/image/upload/v1780409750/adclickss/portfolio/tqihjiotbhnsltnnq0ev.jpg",
-    "publicId": "adclickss/portfolio/tqihjiotbhnsltnnq0ev",
-    "createdAt": "2026-06-02T14:15:51.387Z",
-    "priority": 0
-  },
-  {
-    "id": "media-1780576946651-3pemss",
+    "id": "media-1781011153978-fppnq8",
     "type": "video",
-    "title": "Pranit",
-    "category": "Portrait",
-    "ratio": "4/5",
-    "url": "https://res.cloudinary.com/dtsh4qzd5/video/upload/v1780576945/adclickss/videos/cqki0njhdtznhvdklwpz.mp4",
-    "publicId": "adclickss/videos/cqki0njhdtznhvdklwpz",
-    "thumbnail": "https://res.cloudinary.com/dtsh4qzd5/video/upload/v1780576945/adclickss/videos/cqki0njhdtznhvdklwpz.jpg",
+    "title": "Vimal X Jinal",
+    "category": "Pre-Wedding",
+    "ratio": "9/16",
+    "url": "https://res.cloudinary.com/dtsh4qzd5/video/upload/v1781011152/adclickss/videos/slecwnphxsupnnxaehoe.mp4",
+    "publicId": "adclickss/videos/slecwnphxsupnnxaehoe",
+    "thumbnail": "https://res.cloudinary.com/dtsh4qzd5/video/upload/so_1,w_720,h_1280,c_fill,f_jpg/v1781011152/adclickss/videos/slecwnphxsupnnxaehoe.mp4",
     "badge": "SHORT FILM",
-    "createdAt": "2026-06-04T12:42:26.651Z"
+    "priority": 5,
+    "createdAt": "2026-06-09T13:19:13.978Z"
   },
   {
-    "id": "media-1780579306355-uxsjpc",
-    "type": "image",
-    "title": "Increasing",
-    "category": "Portrait",
-    "ratio": "4/5",
-    "url": "https://res.cloudinary.com/dtsh4qzd5/image/upload/v1780579305/adclickss/portfolio/px67vwsyyczf3kuthvri.jpg",
-    "publicId": "adclickss/portfolio/px67vwsyyczf3kuthvri",
+    "id": "media-1781014822895-2w95kn",
+    "type": "video",
+    "title": "Riya X Rahul",
+    "category": "Pre-Wedding",
+    "ratio": "9/16",
+    "url": "https://res.cloudinary.com/dtsh4qzd5/video/upload/v1781014821/adclickss/videos/rbj6jzz6eoerl69kxm3z.mp4",
+    "publicId": "adclickss/videos/rbj6jzz6eoerl69kxm3z",
+    "thumbnail": "https://res.cloudinary.com/dtsh4qzd5/video/upload/so_1,w_720,h_1280,c_fill,f_jpg/v1781014821/adclickss/videos/rbj6jzz6eoerl69kxm3z.mp4",
+    "badge": "SHORT FILM",
     "priority": 5,
-    "createdAt": "2026-06-04T13:21:46.355Z"
+    "createdAt": "2026-06-09T14:20:22.895Z"
   }
 ]

@@ -108,28 +108,68 @@ export function AdminPanel() {
     if (!selectedFile || !title) return;
 
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("title", title);
-    formData.append("category", category);
-    formData.append("ratio", ratio);
-    formData.append("mediaType", uploadType);
-    formData.append("priority", String(priority));
-    if (uploadType === "video") {
-      formData.append("badge", badge);
-      formData.append("duration", duration);
+
+    try {
+      // Step 1: Get signed upload params from our API
+      const folder = `adclickss/${uploadType === "video" ? "videos" : "portfolio"}`;
+      const sigRes = await fetch("/api/cloudinary-signature", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ folder }),
+      });
+
+      if (!sigRes.ok) throw new Error("Failed to get upload signature");
+      const { signature, timestamp, cloudName, apiKey, folder: signedFolder } = await sigRes.json();
+
+      // Step 2: Upload directly to Cloudinary from browser
+      // Only include params that were signed: folder + timestamp
+      const cloudinaryForm = new FormData();
+      cloudinaryForm.append("file", selectedFile);
+      cloudinaryForm.append("folder", signedFolder);
+      cloudinaryForm.append("timestamp", String(timestamp));
+      cloudinaryForm.append("signature", signature);
+      cloudinaryForm.append("api_key", apiKey);
+
+      const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/${uploadType}/upload`;
+      const cloudRes = await fetch(uploadUrl, { method: "POST", body: cloudinaryForm });
+
+      if (!cloudRes.ok) {
+        const errText = await cloudRes.text();
+        throw new Error(`Cloudinary upload failed: ${errText}`);
+      }
+
+      const cloudData = await cloudRes.json();
+
+      // Step 3: Save metadata to our API
+      const saveRes = await fetch("/api/photos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          category,
+          ratio,
+          mediaType: uploadType,
+          priority,
+          badge: uploadType === "video" ? badge : undefined,
+          duration: uploadType === "video" ? duration : undefined,
+          cloudinaryUrl: cloudData.secure_url,
+          publicId: cloudData.public_id,
+        }),
+      });
+
+      if (saveRes.ok) {
+        resetForm();
+        setShowUpload(false);
+        fetchMedia();
+      } else {
+        const err = await saveRes.json();
+        alert(err.error || "Failed to save metadata");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert(error instanceof Error ? error.message : "Upload failed");
     }
 
-    const res = await fetch("/api/photos", { method: "POST", body: formData });
-
-    if (res.ok) {
-      resetForm();
-      setShowUpload(false);
-      fetchMedia();
-    } else {
-      const err = await res.json();
-      alert(err.error || "Upload failed");
-    }
     setUploading(false);
   };
 

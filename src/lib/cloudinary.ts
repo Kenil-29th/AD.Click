@@ -4,6 +4,7 @@ cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+  timeout: 120000,
 });
 
 export default cloudinary;
@@ -24,21 +25,22 @@ export async function uploadToCloudinary(
   options: { folder: string; resource_type: "image" | "video" }
 ): Promise<UploadResult> {
   return new Promise((resolve, reject) => {
-    cloudinary.uploader
-      .upload_stream(
-        {
-          folder: options.folder,
-          resource_type: options.resource_type,
-        },
-        (error, result) => {
-          if (error || !result) {
-            reject(error || new Error("Upload failed"));
-          } else {
-            resolve(result as unknown as UploadResult);
-          }
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: options.folder,
+        resource_type: options.resource_type,
+      },
+      (error, result) => {
+        if (error || !result) {
+          reject(error || new Error("Upload failed"));
+        } else {
+          resolve(result as unknown as UploadResult);
         }
-      )
-      .end(buffer);
+      }
+    );
+
+    stream.on("error", (err) => reject(err));
+    stream.end(buffer);
   });
 }
 

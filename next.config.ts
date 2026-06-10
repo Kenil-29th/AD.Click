@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
   outputFileTracingRoot: __dirname,
@@ -20,9 +24,10 @@ const nextConfig: NextConfig = {
   experimental: {
     serverComponentsHmrCache: false,
     serverActions: {
-      bodySizeLimit: "10mb",
+      bodySizeLimit: "100mb",
     },
   },
+  serverExternalPackages: ["cloudinary"],
 };
 
 export default nextConfig;
