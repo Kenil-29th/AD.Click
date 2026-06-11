@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import { Redis } from "@upstash/redis";
 
 export type MediaItem = {
   id: string;
@@ -16,47 +15,47 @@ export type MediaItem = {
   createdAt: string;
 };
 
-const DB_PATH = path.join(process.cwd(), "src/data/photos.json");
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+});
 
-function ensureDb() {
-  if (!fs.existsSync(DB_PATH)) {
-    fs.writeFileSync(DB_PATH, JSON.stringify([], null, 2));
-  }
+const MEDIA_KEY = "adclickss:media";
+
+export async function getMedia(): Promise<MediaItem[]> {
+  const data = await redis.get<MediaItem[]>(MEDIA_KEY);
+  return data || [];
 }
 
-export function getMedia(): MediaItem[] {
-  ensureDb();
-  const raw = fs.readFileSync(DB_PATH, "utf-8");
-  return JSON.parse(raw);
+export async function getPhotos(): Promise<MediaItem[]> {
+  const media = await getMedia();
+  return media.filter((m) => m.type === "image");
 }
 
-export function getPhotos(): MediaItem[] {
-  return getMedia().filter((m) => m.type === "image");
+export async function getVideos(): Promise<MediaItem[]> {
+  const media = await getMedia();
+  return media.filter((m) => m.type === "video");
 }
 
-export function getVideos(): MediaItem[] {
-  return getMedia().filter((m) => m.type === "video");
-}
-
-export function addMedia(item: MediaItem): void {
-  const media = getMedia();
+export async function addMedia(item: MediaItem): Promise<void> {
+  const media = await getMedia();
   media.push(item);
-  fs.writeFileSync(DB_PATH, JSON.stringify(media, null, 2));
+  await redis.set(MEDIA_KEY, media);
 }
 
-export function deleteMedia(id: string): MediaItem | undefined {
-  const media = getMedia();
+export async function deleteMedia(id: string): Promise<MediaItem | undefined> {
+  const media = await getMedia();
   const item = media.find((m) => m.id === id);
   const filtered = media.filter((m) => m.id !== id);
-  fs.writeFileSync(DB_PATH, JSON.stringify(filtered, null, 2));
+  await redis.set(MEDIA_KEY, filtered);
   return item;
 }
 
-export function updateMedia(id: string, updates: Partial<Pick<MediaItem, "title" | "category" | "ratio" | "badge" | "priority">>): void {
-  const media = getMedia();
+export async function updateMedia(id: string, updates: Partial<Pick<MediaItem, "title" | "category" | "ratio" | "badge" | "priority">>): Promise<void> {
+  const media = await getMedia();
   const index = media.findIndex((m) => m.id === id);
   if (index !== -1) {
     media[index] = { ...media[index], ...updates };
-    fs.writeFileSync(DB_PATH, JSON.stringify(media, null, 2));
+    await redis.set(MEDIA_KEY, media);
   }
 }

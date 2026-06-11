@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const media = getMedia();
+    const media = await getMedia();
     return NextResponse.json(media);
   } catch (error) {
     console.error("GET /api/photos error:", error);
@@ -13,7 +13,7 @@ export async function GET() {
   }
 }
 
-// Now receives metadata + Cloudinary URL (file already uploaded from browser)
+// Receives metadata + Cloudinary URL (file already uploaded from browser)
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       createdAt: new Date().toISOString(),
     };
 
-    addMedia(item);
+    await addMedia(item);
 
     return NextResponse.json(item, { status: 201 });
   } catch (error) {
@@ -70,7 +70,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "ID required" }, { status: 400 });
   }
 
-  const item = deleteMedia(id);
+  const item = await deleteMedia(id);
 
   // Also delete from Cloudinary
   if (item) {
@@ -94,7 +94,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "ID required" }, { status: 400 });
     }
 
-    updateMedia(id, { title, category, ratio, badge, priority });
+    await updateMedia(id, { title, category, ratio, badge, priority });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Update error:", error);

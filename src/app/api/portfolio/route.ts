@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 // Combine static portfolio with Cloudinary-uploaded photos, sorted by priority
 export async function GET() {
   try {
-    const adminPhotos = getPhotos();
+    const adminPhotos = await getPhotos();
 
     // Sort admin photos by priority (highest first)
     const sorted = [...adminPhotos].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
